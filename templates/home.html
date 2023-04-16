@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Human Detection</title>
+    <link rel="stylesheet" href="/static/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+
+<body>
+    <header class="bg-dark">
+        <div class="container pt-4 pt-xl-5">
+            <div class="row pt-5">
+                <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                    <div class="text-center">
+                        <h1 class="fw-bold">Human Detection</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section></section>
+    <section>
+        <div class="container py-5">
+            <div class="mx-auto" style="max-width: 900px;">
+                <div class="row row-cols-1 row-cols-md-2 d-flex justify-content-center">
+                    <div class="col mb-4">
+                        <div class="card bg-primary-light">
+                            <div class="card-body text-center px-4 py-5 px-md-5">
+                                <p class="fw-bold text-primary card-text mb-2">IMAGE</p>
+                                <h5 class="fw-bold card-title mb-3">Human Detection using images</h5>
+                                <form method="POST" action="/image" enctype="multipart/form-data">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" name="image"
+                                            hidden>
+                                        <label class="custom-file-label" for="customFile">Choose Image file</label>
+                                    </div>
+                                    <button class="btn btn-primary btn-sm" type="submit"
+                                        onclick="return validateFile(event)">Upload</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-secondary-light">
+                            <div class="card-body text-center px-4 py-5 px-md-5">
+                                <p class="fw-bold text-secondary card-text mb-2">VIDEO</p>
+                                <h5 class="fw-bold card-title mb-3">Human Detection using videos</h5>
+                                <form method="POST" action="/video" enctype="multipart/form-data">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customVideo" name="video" hidden>
+                                    <label class="custom-file-label" for="customVideo">Choose video</label>
+                                </div>
+                                <button class="btn btn-secondary btn-sm" type="submit"
+                                    onclick="return validateVideo()">Upload</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col mb-4">
+                        <div class="card bg-info-light">
+                            <div class="card-body text-center px-4 py-5 px-md-5">
+                                <p class="fw-bold text-info card-text mb-2">WEB CAM</p>
+                                <h5 class="fw-bold card-title mb-3">Human Detection using webcam</h5><button
+                                    class="btn btn-info btn-sm" type="button"
+                                    onclick="window.location.href='webcam'">Click here</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-dark"></footer>
+    <script src="/static/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/assets/js/bold-and-dark.js"></script>
+    <script>
+        function validateFile(event) {
+            var fileInput = document.getElementById('customFile');
+            var filePath = fileInput.value;
+            var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+            if (filePath === "") {
+                alert('Please select an image file.');
+                event.preventDefault();
+                return false;
+            }
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Please select a valid image file (JPEG/JPG/PNG/GIF).');
+                fileInput.value = '';
+                event.preventDefault();
+                return false;
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                var fileSize = fileInput.files[0].size;
+                if (fileSize > 1024 * 1024) {
+                    alert('The selected file exceeds the maximum allowed size of 1 MB.');
+                    fileInput.value = '';
+                    event.preventDefault();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+    </script>
+    <script>
+        function validateVideo() {
+            var fileInput = document.getElementById('customVideo');
+            var filePath = fileInput.value;
+            var allowedExtensions = /(\.mp4)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Please select a valid video file (MP4).');
+                fileInput.value = '';
+                return false;
+            }
+
+            if (fileInput.files && fileInput.files[0]) {
+                var fileSize = fileInput.files[0].size;
+                if (fileSize > 1024 * 1024 * 100) { // Maximum size of 100 MB
+                    alert('The selected file exceeds the maximum allowed size of 100 MB.');
+                    fileInput.value = '';
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    </script>
+
+</body>
+
+</html>
